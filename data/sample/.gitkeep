@@ -1,1 +1,5 @@
+Dataset Name: OWASP Juice Shop Source Code
 
+Dataset Source: https://github.com/juice-shop/juice-shop
+
+Purpose: To collect source code, challenge definitions, and code-fix files to generate accurate, evidence-based security hints for OWASP Juice Shop challenges.
