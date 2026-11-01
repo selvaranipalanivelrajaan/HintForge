@@ -29,9 +29,9 @@ The hardest problem is ensuring that AI-generated hints are grounded in the real
 
 | **Source** | **Link** | **Documents** | **Pages** | **Licence / terms** |
 |---|---|---|---|---|
-| OWASP Juice Shop public GitHub repository | [github.com/juice-shop/juice-shop](https://github.com/juice-shop/juice-shop) | 650+ source files targeted, including TypeScript/Angular frontend files, Node.js routes, challenge definitions, and 160+ code-fix files | Not applicable — source-code repository, not a paginated document collection | MIT License; verify individual files and third-party components for applicable licence terms |
+| OWASP Juice Shop public GitHub repository | [github.com/juice-shop/juice-shop](https://github.com/juice-shop/juice-shop) | 918 source files (TypeScript/Angular front end, Node.js routes, challenge definitions), including 160 code-fix files | Source code, so one file counts as one page: 918 files (see `data/manifest.csv`) | MIT License |
 
-*Dataset counts are project targets from the project brief and should be verified against the actual downloaded repository before claiming completed ingestion.*
+Downloaded on 1 Nov 2026 at commit `717f5ef`. Reproduce with `python tools/fetch_juiceshop.py`. Details are in [DATASET.md](DATASET.md).
 
 ## 10 real questions
 

@@ -1,1 +1,2 @@
-https://github.com/juice-shop/juice-shop
+# Dataset: OWASP Juice Shop (MIT) - https://github.com/juice-shop/juice-shop
+# Fetched with: python tools/fetch_juiceshop.py
