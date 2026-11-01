@@ -30,24 +30,31 @@ class LLMUnavailable(RuntimeError):
 
 def _providers() -> list[dict]:
     s = get_settings()
-    return [
-        {
-            "name": "groq",
-            "base_url": "https://api.groq.com/openai/v1",
-            "api_key": s.groq_api_key,
-            "model": s.primary_model,
-        },
-        {
-            "name": "gemini",
-            "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
-            "api_key": s.gemini_api_key,
-            "model": s.fallback_model,
-        },
-    ]
+    groq = {
+        "name": "groq",
+        "base_url": "https://api.groq.com/openai/v1",
+        "api_key": s.groq_api_key,
+        "model": s.primary_model,
+    }
+    gemini = {
+        "name": "gemini",
+        "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+        "api_key": s.gemini_api_key,
+    }
+    if s.groq_api_key:
+        # two providers: Groq first, Gemini as fallback
+        return [groq, {**gemini, "model": s.fallback_model}]
+    # one key: Gemini main model first, lighter Gemini model as fallback
+    return [{**gemini, "model": s.gemini_model}, {**gemini, "model": s.fallback_model}]
 
 
 def _call(provider: dict, messages: list[dict], max_tokens: int):
-    client = OpenAI(api_key=provider["api_key"], base_url=provider["base_url"], timeout=20, max_retries=1)
+    client = OpenAI(
+        api_key=provider["api_key"],
+        base_url=provider["base_url"],
+        timeout=20,
+        max_retries=1,
+    )
     r = client.chat.completions.create(model=provider["model"], messages=messages, max_tokens=max_tokens)
     return r.choices[0].message.content, r.usage.prompt_tokens, r.usage.completion_tokens
 
@@ -59,8 +66,8 @@ def chat(messages: list[dict], max_tokens: int = 500) -> dict:
             continue
         try:
             text, pt, ct = _call(p, messages, max_tokens)
-        except Exception as e:  # any provider failure -> try the next one
-            errors.append(f"{p['name']}: {type(e).__name__}")
+        except Exception as e:  # any failure -> try the next model
+            errors.append(f"{p['name']}/{p['model']}: {type(e).__name__}")
             with _lock:
                 USAGE["errors"] += 1
             continue

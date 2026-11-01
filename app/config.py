@@ -12,8 +12,9 @@ class Settings(BaseSettings):
     # LLM providers (both are OpenAI-compatible APIs)
     groq_api_key: str = ""
     gemini_api_key: str = ""
-    primary_model: str = "llama-3.3-70b-versatile"
-    fallback_model: str = "gemini-2.5-flash"
+    primary_model: str = "llama-3.3-70b-versatile"  # used with Groq
+    gemini_model: str = "gemini-3.6-flash"
+    fallback_model: str = "gemini-3.5-flash-lite"
 
 
 @lru_cache
