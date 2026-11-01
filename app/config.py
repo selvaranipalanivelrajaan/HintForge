@@ -9,6 +9,12 @@ class Settings(BaseSettings):
     app_name: str = "examate-rag"
     environment: str = "local"  # local | ci | production
 
+    # LLM providers (both are OpenAI-compatible APIs)
+    groq_api_key: str = ""
+    gemini_api_key: str = ""
+    primary_model: str = "llama-3.3-70b-versatile"
+    fallback_model: str = "gemini-2.5-flash"
+
 
 @lru_cache
 def get_settings() -> Settings:
